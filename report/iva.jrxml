@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Fattura_subreport1" pageWidth="250" pageHeight="45" orientation="Landscape" columnWidth="250" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="name" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     fiscaldoc_header."totale_merce" AS fiscaldoc_header_totale_merce,
+     fiscaldoc_header."totale_imponibile" AS fiscaldoc_header_totale_imponibile,
+     fiscaldoc_header."totale_imposta" AS fiscaldoc_header_totale_imposta,
+     fiscaldoc_iva."imponibile" AS fiscaldoc_iva_imponibile,
+     fiscaldoc_iva."imposta" AS fiscaldoc_iva_imposta,
+     fiscaldoc_iva."codice_iva" AS fiscaldoc_iva_codice_iva,
+     fiscaldoc_iva."name" AS fiscaldoc_iva_name,
+     account_tax."name" AS account_tax_name,
+     account_tax."description" AS account_tax_description,
+     fiscaldoc_header."data_documento" AS fiscaldoc_header_data_documento,
+     fiscaldoc_header."name" AS fiscaldoc_header_name,
+     fiscaldoc_header."numdoc" AS fiscaldoc_header_numdoc,
+     fiscaldoc_header."id" AS fiscaldoc_header_id
+FROM
+     "public"."fiscaldoc_header" fiscaldoc_header INNER JOIN "public"."fiscaldoc_iva" fiscaldoc_iva ON fiscaldoc_header."id" = fiscaldoc_iva."name"
+     LEFT OUTER JOIN "public"."account_tax" account_tax ON fiscaldoc_iva."codice_iva" = account_tax."id"
+where fiscaldoc_header."name" = $P{name}
+ORDER BY
+     fiscaldoc_header_numdoc ASC]]>
+	</queryString>
+	<field name="fiscaldoc_header_totale_merce" class="java.math.BigDecimal"/>
+	<field name="fiscaldoc_header_totale_imponibile" class="java.math.BigDecimal"/>
+	<field name="fiscaldoc_header_totale_imposta" class="java.math.BigDecimal"/>
+	<field name="fiscaldoc_iva_imponibile" class="java.math.BigDecimal"/>
+	<field name="fiscaldoc_iva_imposta" class="java.math.BigDecimal"/>
+	<field name="fiscaldoc_iva_codice_iva" class="java.lang.Integer"/>
+	<field name="fiscaldoc_iva_name" class="java.lang.Integer"/>
+	<field name="account_tax_name" class="java.lang.String"/>
+	<field name="account_tax_description" class="java.lang.String"/>
+	<field name="fiscaldoc_header_data_documento" class="java.sql.Date"/>
+	<field name="fiscaldoc_header_name" class="java.lang.String"/>
+	<field name="fiscaldoc_header_numdoc" class="java.lang.Integer"/>
+	<field name="fiscaldoc_header_id" class="java.lang.Integer"/>
+	<group name="RR" isStartNewPage="true">
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="8" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="30" height="8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Codice]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="0" width="70" height="8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Imponibile]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="0" width="80" height="8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Descrizione]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="0" width="70" height="8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[IVA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="9" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="30" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{account_tax_description}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="110" y="0" width="70" height="9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fiscaldoc_iva_imponibile}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="30" y="0" width="80" height="9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{account_tax_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="180" y="0" width="70" height="9" isPrintInFirstWholeBand="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fiscaldoc_iva_imposta}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
