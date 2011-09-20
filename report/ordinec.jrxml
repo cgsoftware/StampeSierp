@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ordine" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="362"/>
-	<property name="ireport.y" value="344"/>
+	<property name="ireport.x" value="363"/>
+	<property name="ireport.y" value="624"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -45,6 +45,7 @@
 	<parameter name="anr" class="java.lang.String">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
+	<parameter name="prezzi" class="java.lang.Integer" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT
      sale_order."shop_id" AS sale_order_shop_id,
@@ -94,12 +95,18 @@
      product_product."default_code" AS product_product_default_code,
      product_product."name_template" AS product_product_name_template,
      product_uom."name" AS product_uom_name,
-     account_payment_term."name" AS account_payment_term_name
+     account_payment_term."name" AS account_payment_term_name,
+     sale_order."partner_invoice_id" AS sale_order_partner_invoice_id,
+     res_partner_address_A."zip" AS res_partner_address_A_zip,
+     res_partner_address_A."name" AS res_partner_address_A_name,
+     res_partner_address_A."city" AS res_partner_address_A_city,
+     res_partner_address_A."street" AS res_partner_address_A_street
 FROM
      "public"."sale_order" sale_order INNER JOIN "public"."sale_order_line" sale_order_line ON sale_order."id" = sale_order_line."order_id"
      INNER JOIN "public"."res_partner" res_partner ON sale_order."partner_id" = res_partner."id"
-     INNER JOIN "public"."res_partner_address" res_partner_address ON sale_order."partner_shipping_id" = res_partner_address."id"
      LEFT OUTER JOIN "public"."account_payment_term" account_payment_term ON sale_order."payment_term" = account_payment_term."id"
+     LEFT OUTER JOIN "public"."res_partner_address" res_partner_address ON sale_order."partner_invoice_id" = res_partner_address."id"
+     LEFT OUTER JOIN "public"."res_partner_address" res_partner_address_A ON sale_order."partner_shipping_id" = res_partner_address_A."id"
      AND res_partner."id" = res_partner_address."partner_id"
      LEFT OUTER JOIN "public"."product_product" product_product ON sale_order_line."product_id" = product_product."id"
      LEFT OUTER JOIN "public"."product_uom" product_uom ON sale_order_line."product_uom" = product_uom."id"
@@ -157,6 +164,11 @@ WHERE
 	<field name="product_product_name_template" class="java.lang.String"/>
 	<field name="product_uom_name" class="java.lang.String"/>
 	<field name="account_payment_term_name" class="java.lang.String"/>
+	<field name="sale_order_partner_invoice_id" class="java.lang.Integer"/>
+	<field name="res_partner_address_a_zip" class="java.lang.String"/>
+	<field name="res_partner_address_a_name" class="java.lang.String"/>
+	<field name="res_partner_address_a_city" class="java.lang.String"/>
+	<field name="res_partner_address_a_street" class="java.lang.String"/>
 	<sortField name="sale_order_name"/>
 	<sortField name="sale_order_date_order"/>
 	<group name="Ordine" isStartNewPage="true" isResetPageNumber="true">
@@ -377,6 +389,42 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{account_payment_term_name}]]></textFieldExpression>
 			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="8" y="136" width="37" height="10">
+					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{res_partner_address_a_zip}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="48" y="136" width="129" height="10">
+					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{res_partner_address_a_city}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="8" y="126" width="208" height="10">
+					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{res_partner_address_a_street}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="8" y="114" width="243" height="13">
+					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{res_partner_name}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -437,7 +485,9 @@ WHERE
 			<frame>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="30"/>
 				<textField pattern="¤ #,##0.00">
-					<reportElement x="429" y="0" width="45" height="15"/>
+					<reportElement x="429" y="0" width="45" height="15">
+						<printWhenExpression><![CDATA[$P{prezzi}.equals( 1 )]]></printWhenExpression>
+					</reportElement>
 					<textElement textAlignment="Left" verticalAlignment="Top">
 						<font size="8"/>
 					</textElement>
@@ -449,7 +499,9 @@ WHERE
 					<textFieldExpression><![CDATA[$F{product_uom_name}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="388" y="0" width="37" height="15"/>
+					<reportElement x="388" y="0" width="37" height="15">
+						<printWhenExpression><![CDATA[$P{prezzi}.equals( 1 )]]></printWhenExpression>
+					</reportElement>
 					<textElement verticalAlignment="Top">
 						<font size="8"/>
 					</textElement>
@@ -471,7 +523,9 @@ WHERE
 				<textFieldExpression><![CDATA[$F{sale_order_line_product_uos_qty}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00">
-				<reportElement x="339" y="0" width="48" height="15"/>
+				<reportElement x="339" y="0" width="48" height="15">
+					<printWhenExpression><![CDATA[$P{prezzi}.equals( 1 )]]></printWhenExpression>
+				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font size="8"/>
 				</textElement>
@@ -506,14 +560,18 @@ WHERE
 				<reportElement x="0" y="0" width="553" height="113" forecolor="#131313"/>
 			</rectangle>
 			<textField pattern="¤ #,##0.00">
-				<reportElement x="149" y="13" width="100" height="20"/>
+				<reportElement x="149" y="13" width="100" height="20">
+					<printWhenExpression><![CDATA[$P{prezzi}.equals( 1 )]]></printWhenExpression>
+				</reportElement>
 				<textElement>
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sale_order_amount_untaxed}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00">
-				<reportElement x="450" y="13" width="75" height="20"/>
+				<reportElement x="450" y="13" width="75" height="20">
+					<printWhenExpression><![CDATA[$P{prezzi}.equals( 1 )]]></printWhenExpression>
+				</reportElement>
 				<textElement>
 					<font size="10"/>
 				</textElement>
