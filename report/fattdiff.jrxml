@@ -2,29 +2,32 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FATACC" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="16"/>
 	<style name="Righe" mode="Opaque">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
 			<style backcolor="#E6DAC3"/>
 		</conditionalStyle>
 	</style>
-	<parameter name="dadata" class="java.lang.String">
+	<parameter name="dadata" class="java.lang.String" isForPrompting="false">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="adata" class="java.lang.String">
+	<parameter name="adata" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="danr" class="java.lang.String">
+	<parameter name="danr" class="java.lang.String" isForPrompting="false">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
-	<parameter name="anr" class="java.lang.String"/>
+	<parameter name="anr" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="scad_1" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="name" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -221,6 +224,9 @@ ORDER BY
 	<field name="sale_agent_partner_id" class="java.lang.Integer"/>
 	<field name="sale_agent_name" class="java.lang.String"/>
 	<sortField name="fiscaldoc_header_numdoc"/>
+	<variable name="name" class="java.lang.String">
+		<variableExpression><![CDATA[$F{fiscaldoc_header_name}]]></variableExpression>
+	</variable>
 	<group name="FAT" isStartNewPage="true" isResetPageNumber="true">
 		<groupExpression><![CDATA[$F{fiscaldoc_header_name}+$F{fiscaldoc_header_data_documento}]]></groupExpression>
 		<groupHeader>
@@ -575,20 +581,10 @@ ORDER BY
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="190" splitType="Stretch">
+		<band height="192" splitType="Stretch">
 			<rectangle radius="10">
 				<reportElement x="0" y="0" width="555" height="186" printWhenGroupChanges="FAT" forecolor="#131313"/>
 			</rectangle>
-			<subreport>
-				<reportElement x="215" y="32" width="335" height="72"/>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "iva.jasper"]]></subreportExpression>
-			</subreport>
-			<subreport>
-				<reportElement x="4" y="144" width="546" height="44"/>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "scadenze.jasper"]]></subreportExpression>
-			</subreport>
 			<line>
 				<reportElement x="0" y="27" width="553" height="1" printWhenGroupChanges="FAT"/>
 			</line>
@@ -845,6 +841,58 @@ CONTRIBUTO CONAI ASSOLTO OVE DOVUTO]]></text>
 				</textElement>
 				<text><![CDATA[SCADENZE EFFETTI]]></text>
 			</staticText>
+			<subreport runToBottom="false">
+				<reportElement x="5" y="144" width="496" height="40"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="name">
+					<subreportParameterExpression><![CDATA[$P{name}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="danr">
+					<subreportParameterExpression><![CDATA[$P{danr}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="scad_1">
+					<subreportParameterExpression><![CDATA[$P{scad_1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="adata">
+					<subreportParameterExpression><![CDATA[$P{adata}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dadata">
+					<subreportParameterExpression><![CDATA[$P{dadata}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="anr">
+					<subreportParameterExpression><![CDATA[$P{anr}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "scadq.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport runToBottom="false">
+				<reportElement x="215" y="34" width="335" height="70"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="name">
+					<subreportParameterExpression><![CDATA[$P{name}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="danr">
+					<subreportParameterExpression><![CDATA[$P{danr}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="adata">
+					<subreportParameterExpression><![CDATA[$P{adata}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="scad_1">
+					<subreportParameterExpression><![CDATA[$P{scad_1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dadata">
+					<subreportParameterExpression><![CDATA[$P{dadata}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="anr">
+					<subreportParameterExpression><![CDATA[$P{anr}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "iva.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</pageFooter>
 	<summary>

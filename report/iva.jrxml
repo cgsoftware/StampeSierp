@@ -6,6 +6,20 @@
 	<parameter name="name" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="danr" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="scad_1" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="anr" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="adata" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dadata" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      fiscaldoc_header."totale_merce" AS fiscaldoc_header_totale_merce,
