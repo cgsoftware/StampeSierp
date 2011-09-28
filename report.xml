@@ -28,7 +28,7 @@
         <field name="type">ir.actions.report.xml</field>
         <field name="model">italianfiscaldoc.header</field>
         <field name="report_name">fattdiff</field>
-        <field name="report_rml">StampeSierp/report//fattdiff.jrxml</field>
+        <field name="report_rml">StampeSierp/report/fattdiff.jrxml</field>
         <field name="report_type">pdf</field>
         <field name="jasper_report">True</field>
         <field name="jasper_output">pdf</field>
