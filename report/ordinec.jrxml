@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ordine" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ordine" language="groovy" pageWidth="297" pageHeight="421" columnWidth="277" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="363"/>
-	<property name="ireport.y" value="624"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="144"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -45,7 +45,6 @@
 	<parameter name="anr" class="java.lang.String">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
-	<parameter name="prezzi" class="java.lang.Integer" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT
      sale_order."shop_id" AS sale_order_shop_id,
@@ -100,14 +99,21 @@
      res_partner_address_A."zip" AS res_partner_address_A_zip,
      res_partner_address_A."name" AS res_partner_address_A_name,
      res_partner_address_A."city" AS res_partner_address_A_city,
-     res_partner_address_A."street" AS res_partner_address_A_street
+     res_partner_address_A."street" AS res_partner_address_A_street,
+     res_partner_address."phone" AS res_partner_address_phone,
+     res_partner_address."mobile" AS res_partner_address_mobile,
+     stock_picking_carriage_condition."name" AS stock_picking_carriage_condition_name,
+     res_partner."carriage_condition_id" AS res_partner_carriage_condition_id,
+     delivery_carrier."name" AS delivery_carrier_name
 FROM
      "public"."sale_order" sale_order INNER JOIN "public"."sale_order_line" sale_order_line ON sale_order."id" = sale_order_line."order_id"
      INNER JOIN "public"."res_partner" res_partner ON sale_order."partner_id" = res_partner."id"
      LEFT OUTER JOIN "public"."account_payment_term" account_payment_term ON sale_order."payment_term" = account_payment_term."id"
      LEFT OUTER JOIN "public"."res_partner_address" res_partner_address ON sale_order."partner_invoice_id" = res_partner_address."id"
      LEFT OUTER JOIN "public"."res_partner_address" res_partner_address_A ON sale_order."partner_shipping_id" = res_partner_address_A."id"
+     LEFT OUTER JOIN "public"."delivery_carrier" delivery_carrier ON sale_order."carrier_id" = delivery_carrier."id"
      AND res_partner."id" = res_partner_address."partner_id"
+     LEFT OUTER JOIN "public"."stock_picking_carriage_condition" stock_picking_carriage_condition ON res_partner."carriage_condition_id" = stock_picking_carriage_condition."id"
      LEFT OUTER JOIN "public"."product_product" product_product ON sale_order_line."product_id" = product_product."id"
      LEFT OUTER JOIN "public"."product_uom" product_uom ON sale_order_line."product_uom" = product_uom."id"
 WHERE
@@ -169,6 +175,11 @@ WHERE
 	<field name="res_partner_address_a_name" class="java.lang.String"/>
 	<field name="res_partner_address_a_city" class="java.lang.String"/>
 	<field name="res_partner_address_a_street" class="java.lang.String"/>
+	<field name="res_partner_address_phone" class="java.lang.String"/>
+	<field name="res_partner_address_mobile" class="java.lang.String"/>
+	<field name="stock_picking_carriage_condition_name" class="java.lang.String"/>
+	<field name="res_partner_carriage_condition_id" class="java.lang.Integer"/>
+	<field name="delivery_carrier_name" class="java.lang.String"/>
 	<sortField name="sale_order_name"/>
 	<sortField name="sale_order_date_order"/>
 	<group name="Ordine" isStartNewPage="true" isResetPageNumber="true">
@@ -177,474 +188,347 @@ WHERE
 			<band/>
 		</groupHeader>
 		<groupFooter>
-			<band height="16">
+			<band>
 				<printWhenExpression><![CDATA[false]]></printWhenExpression>
 			</band>
 		</groupFooter>
 	</group>
 	<title>
-		<band height="2" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="298" splitType="Stretch">
+		<band height="173" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement mode="Opaque" x="284" y="106" width="273" height="67" forecolor="#777777" backcolor="#777777"/>
+				<reportElement mode="Opaque" x="139" y="66" width="137" height="66" forecolor="#777777" backcolor="#777777"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement x="279" y="101" width="273" height="65" backcolor="#FFFFFF"/>
+				<reportElement x="134" y="61" width="139" height="67" backcolor="#FFFFFF"/>
 			</rectangle>
-			<textField>
-				<reportElement x="303" y="113" width="243" height="13"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="138" y="73" width="127" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font size="11" isBold="true" isStrikeThrough="false"/>
+					<font size="7" isBold="true" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_name}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="303" y="103" width="138" height="11"/>
+				<reportElement x="138" y="66" width="70" height="7"/>
 				<textElement>
-					<font size="7" isItalic="true"/>
+					<font size="5" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Intestatario Documento]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="303" y="125" width="243" height="13"/>
+				<reportElement mode="Transparent" x="138" y="93" width="127" height="8"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_street}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="330" y="149" width="95" height="13"/>
+				<reportElement x="159" y="110" width="95" height="8"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_vat}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="303" y="137" width="45" height="13"/>
+				<reportElement x="138" y="101" width="25" height="8"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_zip}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="10">
-				<reportElement x="5" y="106" width="270" height="67" forecolor="#777777" backcolor="#777777"/>
+				<reportElement x="139" y="5" width="135" height="52" forecolor="#777777" backcolor="#777777"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement x="0" y="101" width="270" height="65" backcolor="#FFFFFF"/>
+				<reportElement x="134" y="0" width="135" height="53" backcolor="#FFFFFF"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="103" width="138" height="11"/>
+				<reportElement x="138" y="2" width="70" height="7"/>
 				<textElement>
-					<font size="7" isItalic="true"/>
+					<font size="5" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Diversa Destinazione]]></text>
 			</staticText>
 			<rectangle radius="10">
-				<reportElement x="0" y="179" width="555" height="33" forecolor="#777777" backcolor="#777777"/>
+				<reportElement x="0" y="139" width="277" height="33" forecolor="#777777" backcolor="#777777"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement x="0" y="177" width="552" height="33"/>
+				<reportElement x="0" y="137" width="275" height="33"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="13" y="178" width="52" height="11"/>
+				<reportElement x="5" y="138" width="50" height="7"/>
 				<textElement>
-					<font size="8" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Magazzino]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="123" y="178" width="72" height="11"/>
-				<textElement>
-					<font size="8" isItalic="true"/>
+					<font size="6" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Codice Cliente]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="123" y="188" width="72" height="16"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<reportElement x="5" y="144" width="50" height="8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{sale_order_partner_id}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="222" y="178" width="72" height="11"/>
+				<reportElement x="60" y="138" width="50" height="7"/>
 				<textElement>
-					<font size="8" isItalic="true"/>
+					<font size="6" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Tipo Documento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="488" y="178" width="45" height="11"/>
+				<reportElement x="225" y="138" width="22" height="7"/>
 				<textElement>
-					<font size="8" isItalic="true"/>
+					<font size="6" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Pagina]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="222" y="188" width="72" height="16"/>
+				<reportElement x="60" y="144" width="50" height="8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="true" isItalic="false"/>
+					<font size="6" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[ORDINE]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="488" y="188" width="45" height="18" printWhenGroupChanges="Ordine"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="225" y="144" width="22" height="8" printWhenGroupChanges="Ordine"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="315" y="178" width="65" height="11"/>
+				<reportElement x="115" y="138" width="50" height="7"/>
 				<textElement>
-					<font size="8" isItalic="true"/>
+					<font size="6" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[N° Documento]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="315" y="188" width="65" height="16"/>
+				<reportElement x="115" y="144" width="50" height="8"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="10" isBold="true" isItalic="true"/>
+					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sale_order_name}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="389" y="178" width="79" height="11"/>
+				<reportElement x="170" y="138" width="50" height="7"/>
 				<textElement>
-					<font size="8" isBold="false" isItalic="true"/>
+					<font size="5" isBold="false" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Data Documento]]></text>
 			</staticText>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="389" y="188" width="79" height="16"/>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="170" y="144" width="50" height="8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="10" isBold="false" isItalic="false"/>
+					<font size="6" isBold="false" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sale_order_date_order}]]></textFieldExpression>
 			</textField>
-			<rectangle radius="10">
-				<reportElement x="0" y="216" width="554" height="80"/>
-			</rectangle>
-			<line>
-				<reportElement x="2" y="240" width="550" height="1"/>
-			</line>
 			<staticText>
-				<reportElement x="13" y="217" width="52" height="11"/>
+				<reportElement mode="Opaque" x="140" y="10" width="70" height="10"/>
 				<textElement>
-					<font size="8" isItalic="true"/>
+					<font size="7" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Idem]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="155" width="52" height="7"/>
+				<textElement>
+					<font size="6" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Pagamento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="170" y="217" width="52" height="11"/>
-				<textElement>
-					<font size="8" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Valuta]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="344" y="217" width="52" height="11"/>
-				<textElement>
-					<font size="8" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Banca]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="3" y="245" width="549" height="40"/>
-				<textElement>
-					<font size="7"/>
-				</textElement>
-				<text><![CDATA[CONDIZIONI GENERALI DI VENDITA. 1 - Non si accettano reclami dopo che lo scarico è stato effettuato. 2 - Resta a carico del destinatario lo scarico della merce. 3 - In caso di ritardo nel pagamento decorreranno gli interessi commerciali nella misura del saggio ufficiale dello sconto aumentato di 3 punti. 4 - Per qualsiasi controversia si adirà l'Autorità Giudiziaria competente nel territorio della Ditta venditrice. 5 - Ove si renda necessaria la FATTURA deve essere RICHIESTA all'ordine.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="5" y="280" width="110" height="15"/>
-				<textElement>
-					<font size="11" isBold="true" isItalic="false"/>
-				</textElement>
-				<text><![CDATA[Firma]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="303" y="149" width="25" height="13"/>
+				<reportElement x="138" y="110" width="20" height="8"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<text><![CDATA[P. IVA]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="170" y="228" width="52" height="11"/>
-				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font size="8" isBold="true" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[EURO]]></text>
-			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="348" y="138" width="198" height="13"/>
+				<reportElement x="163" y="101" width="102" height="8"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_city}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="4" y="228" width="145" height="13"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="5" y="162" width="145" height="8"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="8" isBold="false"/>
+					<font size="6" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{account_payment_term_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="8" y="136" width="37" height="10">
+				<reportElement x="138" y="38" width="25" height="8">
 					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_a_zip}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="48" y="136" width="129" height="10">
+				<reportElement x="163" y="38" width="102" height="8">
 					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_a_city}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="8" y="126" width="208" height="10">
+				<reportElement x="138" y="30" width="127" height="8">
 					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_a_street}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="8" y="114" width="243" height="13">
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="138" y="10" width="127" height="10">
 					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="11" isBold="true" isStrikeThrough="false"/>
+					<font size="7" isBold="true" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="138" y="118" width="50" height="8"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{res_partner_address_phone}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="188" y="118" width="50" height="8"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{res_partner_address_mobile}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="30" splitType="Stretch">
+		<band height="13" splitType="Stretch">
 			<staticText>
-				<reportElement x="3" y="7" width="219" height="20"/>
+				<reportElement x="2" y="2" width="160" height="9"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="9" isBold="false" isItalic="true"/>
+					<font size="7" isBold="false" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Articolo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="259" y="7" width="24" height="20"/>
+				<reportElement x="172" y="2" width="16" height="9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="false" isItalic="true"/>
+					<font size="7" isBold="false" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[UM]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="284" y="7" width="55" height="20"/>
+				<reportElement x="190" y="2" width="25" height="9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="false" isItalic="true"/>
+					<font size="7" isBold="false" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Quantità]]></text>
+				<text><![CDATA[Q.tà]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="339" y="7" width="45" height="20"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="9" isBold="false" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Prezzo]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="429" y="7" width="45" height="20"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="9" isBold="false" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Importo	]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="477" y="7" width="75" height="20"/>
+				<reportElement x="218" y="2" width="59" height="9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="false" isItalic="true"/>
+					<font size="7" isBold="false" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[Data Evasione]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="387" y="7" width="38" height="20"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="9" isBold="false" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Sconto]]></text>
+				<text><![CDATA[gg di evasione]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="30" splitType="Stretch">
+		<band height="8" splitType="Stretch">
 			<frame>
-				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="30"/>
-				<textField pattern="¤ #,##0.00">
-					<reportElement x="429" y="0" width="45" height="15">
-						<printWhenExpression><![CDATA[$P{prezzi}.equals( 1 )]]></printWhenExpression>
-					</reportElement>
-					<textElement textAlignment="Left" verticalAlignment="Top">
-						<font size="8"/>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="277" height="8"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="160" height="8" isPrintInFirstWholeBand="true"/>
+					<textElement verticalAlignment="Top">
+						<font size="6"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{sale_order_line_product_uos_qty}*$F{sale_order_line_price_unit}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{sale_order_line_name}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0">
+					<reportElement x="188" y="0" width="25" height="8"/>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{sale_order_line_product_uos_qty}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement positionType="Float" x="160" y="0" width="8" height="8"/>
+				</rectangle>
+				<textField pattern="###0">
+					<reportElement x="216" y="0" width="59" height="8"/>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{sale_order_line_delay}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="260" y="0" width="20" height="15"/>
-					<textElement verticalAlignment="Top"/>
+					<reportElement x="172" y="0" width="16" height="8"/>
+					<textElement verticalAlignment="Top">
+						<font size="6"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$F{product_uom_name}]]></textFieldExpression>
 				</textField>
-				<textField isBlankWhenNull="true">
-					<reportElement x="388" y="0" width="37" height="15">
-						<printWhenExpression><![CDATA[$P{prezzi}.equals( 1 )]]></printWhenExpression>
-					</reportElement>
-					<textElement verticalAlignment="Top">
-						<font size="8"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{sale_order_line_string_discount}]]></textFieldExpression>
-				</textField>
 			</frame>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="5" y="0" width="217" height="15" isPrintInFirstWholeBand="true"/>
-				<textElement verticalAlignment="Top">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sale_order_line_name}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0">
-				<reportElement x="284" y="0" width="54" height="15"/>
-				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sale_order_line_product_uos_qty}]]></textFieldExpression>
-			</textField>
-			<textField pattern="¤ #,##0.00">
-				<reportElement x="339" y="0" width="48" height="15">
-					<printWhenExpression><![CDATA[$P{prezzi}.equals( 1 )]]></printWhenExpression>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sale_order_line_price_unit}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="5" y="16" width="217" height="14" isRemoveLineWhenBlank="true"/>
-				<textElement verticalAlignment="Bottom">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sale_order_line_notes}]]></textFieldExpression>
-			</textField>
-			<rectangle>
-				<reportElement positionType="Float" x="224" y="0" width="14" height="14"/>
-			</rectangle>
-			<rectangle>
-				<reportElement x="242" y="0" width="14" height="14"/>
-			</rectangle>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="11" splitType="Stretch">
+		<band splitType="Stretch">
 			<printWhenExpression><![CDATA[false]]></printWhenExpression>
 		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="120" splitType="Stretch">
+		<band height="62" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement x="0" y="0" width="555" height="116" forecolor="#777777" backcolor="#777777"/>
+				<reportElement x="0" y="0" width="277" height="62" forecolor="#777777" backcolor="#777777"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement x="0" y="0" width="553" height="113" forecolor="#131313"/>
+				<reportElement x="0" y="0" width="275" height="60" forecolor="#131313"/>
 			</rectangle>
-			<textField pattern="¤ #,##0.00">
-				<reportElement x="149" y="13" width="100" height="20">
-					<printWhenExpression><![CDATA[$P{prezzi}.equals( 1 )]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sale_order_amount_untaxed}]]></textFieldExpression>
-			</textField>
-			<textField pattern="¤ #,##0.00">
-				<reportElement x="450" y="13" width="75" height="20">
-					<printWhenExpression><![CDATA[$P{prezzi}.equals( 1 )]]></printWhenExpression>
-				</reportElement>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sale_order_amount_tax}]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement x="0" y="35" width="552" height="1"/>
-			</line>
-			<staticText>
-				<reportElement x="150" y="2" width="72" height="11"/>
-				<textElement>
-					<font size="8" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Totale Merce]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="450" y="2" width="72" height="11"/>
-				<textElement>
-					<font size="8" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Totale Imposta]]></text>
-			</staticText>
-			<rectangle radius="10">
-				<reportElement mode="Opaque" x="396" y="35" width="153" height="43" forecolor="#777777" backcolor="#777777"/>
-			</rectangle>
-			<rectangle radius="10">
-				<reportElement x="396" y="35" width="150" height="40"/>
-			</rectangle>
-			<staticText>
-				<reportElement x="405" y="37" width="100" height="11"/>
-				<textElement>
-					<font size="8" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Totale Documento Eur]]></text>
-			</staticText>
-			<textField pattern="¤ #,##0.00">
-				<reportElement x="433" y="48" width="100" height="20">
-					<printWhenExpression><![CDATA[new Boolean($V{PAGE_COUNT}.intValue() < 22)]]></printWhenExpression>
-				</reportElement>
-				<textElement textAlignment="Right">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sale_order_amount_total}]]></textFieldExpression>
-			</textField>
 			<line direction="BottomUp">
-				<reportElement mode="Transparent" x="250" y="35" width="1" height="78"/>
-			</line>
-			<line>
-				<reportElement mode="Transparent" x="251" y="83" width="301" height="1"/>
+				<reportElement mode="Transparent" x="143" y="0" width="1" height="60"/>
 			</line>
 			<staticText>
-				<reportElement x="258" y="86" width="100" height="11"/>
+				<reportElement x="158" y="5" width="100" height="9"/>
 				<textElement>
-					<font size="8" isItalic="true"/>
+					<font size="7" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Trasporto a Mezzo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="40" width="100" height="11"/>
+				<reportElement x="8" y="5" width="100" height="9"/>
 				<textElement>
-					<font size="8" isItalic="true"/>
+					<font size="7" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Note]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="433" y="48" width="100" height="20">
-					<printWhenExpression><![CDATA[new Boolean($V{PAGE_COUNT}.intValue() > 21)]]></printWhenExpression>
-				</reportElement>
-				<textElement textAlignment="Right" verticalAlignment="Bottom">
-					<font size="9" isItalic="true"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="8" y="16" width="100" height="10"/>
+				<textElement>
+					<font size="6"/>
 				</textElement>
-				<text><![CDATA[Segue ...]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$F{sale_order_note}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="158" y="16" width="100" height="10"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{delivery_carrier_name}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 </jasperReport>
