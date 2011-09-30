@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DDT" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DDT" language="groovy" pageWidth="421" pageHeight="595" columnWidth="401" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="482"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="488"/>
 	<style name="Righe" mode="Opaque">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
@@ -109,7 +109,9 @@
      res_partner_address_A."city" AS res_partner_address_A_city,
      res_partner_address_A."street" AS res_partner_address_A_street,
      product_template."description_sale" AS product_template_description_sale,
-     sale_agent."name" AS sale_agent_name
+     sale_agent."name" AS sale_agent_name,
+     res_partner_address."mobile" AS res_partner_address_mobile,
+     res_partner_address."phone" AS res_partner_address_phone
 FROM
      "public"."fiscaldoc_header" fiscaldoc_header INNER JOIN "public"."fiscaldoc_righe" fiscaldoc_righe ON fiscaldoc_header."id" = fiscaldoc_righe."name"
      LEFT OUTER JOIN "public"."fiscaldoc_spedizioni" fiscaldoc_spedizioni ON fiscaldoc_header."spedizione" = fiscaldoc_spedizioni."id"
@@ -222,6 +224,8 @@ ORDER BY
 	<field name="res_partner_address_a_street" class="java.lang.String"/>
 	<field name="product_template_description_sale" class="java.lang.String"/>
 	<field name="sale_agent_name" class="java.lang.String"/>
+	<field name="res_partner_address_mobile" class="java.lang.String"/>
+	<field name="res_partner_address_phone" class="java.lang.String"/>
 	<sortField name="fiscaldoc_header_numdoc"/>
 	<group name="FAT" isStartNewPage="true" isResetPageNumber="true">
 		<groupExpression><![CDATA[$F{fiscaldoc_header_name}+$F{fiscaldoc_header_data_documento}]]></groupExpression>
@@ -238,98 +242,119 @@ ORDER BY
 	<pageHeader>
 		<band height="133" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement x="271" y="74" width="269" height="55" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="200" y="74" width="196" height="55" forecolor="#000000" backcolor="#FFFFFF"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement x="271" y="8" width="269" height="55" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="200" y="8" width="196" height="55" forecolor="#000000" backcolor="#FFFFFF"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="277" y="76" width="100" height="8"/>
+				<reportElement x="212" y="76" width="100" height="6"/>
 				<textElement>
 					<font size="5" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Intestatario Documento]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="277" y="84" width="253" height="10"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="206" y="84" width="160" height="9"/>
 				<textElement>
-					<font size="8" isBold="true"/>
+					<font size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="280" y="94" width="208" height="10"/>
+				<reportElement x="209" y="94" width="182" height="8"/>
 				<textElement>
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_street}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="280" y="104" width="37" height="10"/>
+				<reportElement x="209" y="104" width="37" height="8"/>
 				<textElement>
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_zip}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="320" y="104" width="129" height="10"/>
+				<reportElement x="249" y="104" width="129" height="8"/>
 				<textElement>
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_city}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="277" y="10" width="100" height="8"/>
+				<reportElement x="212" y="10" width="100" height="6"/>
 				<textElement>
 					<font size="5" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Destinatario Merce]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="320" y="41" width="129" height="10">
+				<reportElement x="249" y="41" width="129" height="8">
 					<printWhenExpression><![CDATA[$F{fiscaldoc_header_partner_indfat_id}.compareTo($F{fiscaldoc_header_partner_indcons_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_a_city}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="280" y="41" width="37" height="10">
+				<reportElement x="209" y="41" width="37" height="8">
 					<printWhenExpression><![CDATA[$F{fiscaldoc_header_partner_indfat_id}.compareTo($F{fiscaldoc_header_partner_indcons_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_a_zip}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="280" y="31" width="208" height="10">
+				<reportElement x="209" y="31" width="182" height="8">
 					<printWhenExpression><![CDATA[$F{fiscaldoc_header_partner_indfat_id}.compareTo($F{fiscaldoc_header_partner_indcons_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font size="8"/>
+					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_a_street}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="278" y="21" width="252" height="10">
+			<staticText>
+				<reportElement mode="Opaque" x="211" y="21" width="70" height="10"/>
+				<textElement>
+					<font size="7" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Idem]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement mode="Opaque" x="207" y="21" width="160" height="9">
 					<printWhenExpression><![CDATA[$F{fiscaldoc_header_partner_indfat_id}.compareTo($F{fiscaldoc_header_partner_indcons_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font size="8" isBold="true"/>
+					<font size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="210" y="114" width="50" height="8"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{res_partner_address_phone}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="271" y="114" width="50" height="8"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{res_partner_address_mobile}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="78" splitType="Stretch">
+		<band height="109" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement x="0" y="0" width="550" height="60"/>
+				<reportElement x="0" y="0" width="396" height="87"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="359" y="3" width="87" height="8"/>
+				<reportElement x="20" y="35" width="87" height="8"/>
 				<textElement>
 					<font size="5" isBold="true" isItalic="false"/>
 				</textElement>
@@ -357,21 +382,21 @@ ORDER BY
 				<text><![CDATA[TIPO DOCUMENTO	]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="490" y="3" width="50" height="8"/>
+				<reportElement x="205" y="34" width="50" height="8"/>
 				<textElement>
 					<font size="5" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[DATA DOCUM.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="509" y="34" width="35" height="8"/>
+				<reportElement x="356" y="4" width="35" height="8"/>
 				<textElement>
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Pagina]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="509" y="45" width="35" height="10"/>
+				<reportElement x="356" y="15" width="35" height="10"/>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
@@ -385,7 +410,7 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{fiscaldoc_header_partner_id}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="490" y="10" width="50" height="10"/>
+				<reportElement x="205" y="41" width="50" height="10"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -399,38 +424,38 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{fiscaldoc_causalidoc_descrizione}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="359" y="10" width="121" height="10"/>
+				<reportElement x="20" y="42" width="121" height="10"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fiscaldoc_header_name}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="10">
-				<reportElement x="0" y="62" width="548" height="15" backcolor="#B7B7B7"/>
+				<reportElement x="0" y="92" width="396" height="15" backcolor="#B7B7B7"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="480" y="66" width="55" height="8"/>
+				<reportElement x="330" y="95" width="55" height="8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Quantità]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="449" y="66" width="24" height="8"/>
+				<reportElement x="299" y="95" width="24" height="8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[UM]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="86" y="66" width="192" height="8"/>
+				<reportElement x="86" y="95" width="192" height="8"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="6" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Articolo]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="30" width="550" height="1"/>
+				<reportElement x="0" y="30" width="396" height="1"/>
 			</line>
 			<line>
 				<reportElement x="45" y="0" width="1" height="30"/>
@@ -453,7 +478,7 @@ ORDER BY
 				<text><![CDATA[CODICE FISCALE CLIENTE]]></text>
 			</staticText>
 			<line>
-				<reportElement x="195" y="0" width="1" height="30"/>
+				<reportElement x="195" y="0" width="1" height="56"/>
 			</line>
 			<staticText>
 				<reportElement x="200" y="3" width="50" height="8"/>
@@ -473,77 +498,74 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{sale_agent_name}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="485" y="0" width="1" height="30"/>
-			</line>
-			<line>
 				<reportElement x="350" y="0" width="1" height="30"/>
 			</line>
 			<line>
-				<reportElement x="150" y="30" width="1" height="30"/>
+				<reportElement x="144" y="56" width="1" height="30"/>
 			</line>
 			<staticText>
-				<reportElement x="8" y="34" width="129" height="8"/>
+				<reportElement x="8" y="67" width="129" height="8"/>
 				<textElement verticalAlignment="Middle">
 					<font size="5" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[DESCRIZIONE PAGAMENTO]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="8" y="40" width="129" height="10"/>
+				<reportElement x="8" y="73" width="129" height="10"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{account_payment_term_name}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="160" y="34" width="129" height="8"/>
+				<reportElement x="153" y="67" width="129" height="8"/>
 				<textElement verticalAlignment="Middle">
 					<font size="5" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[BANCA D'APPOGGIO]]></text>
 			</staticText>
 			<line>
-				<reportElement x="295" y="30" width="1" height="30"/>
+				<reportElement x="289" y="56" width="1" height="30"/>
 			</line>
 			<staticText>
-				<reportElement x="314" y="34" width="129" height="8"/>
+				<reportElement x="296" y="67" width="95" height="8"/>
 				<textElement verticalAlignment="Middle">
 					<font size="5" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[DEPOSITO]]></text>
 			</staticText>
-			<line>
-				<reportElement x="485" y="30" width="1" height="30"/>
-			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="160" y="40" width="129" height="10"/>
+				<reportElement x="153" y="73" width="129" height="10"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_bank_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="314" y="40" width="129" height="10"/>
+				<reportElement x="296" y="73" width="95" height="10"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sale_shop_name}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="0" y="55" width="396" height="1"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="10" splitType="Stretch">
 			<frame>
-				<reportElement style="Righe" mode="Opaque" x="0" y="0" width="547" height="10"/>
+				<reportElement style="Righe" mode="Opaque" x="0" y="0" width="401" height="10"/>
 				<textField>
-					<reportElement x="443" y="0" width="24" height="10"/>
+					<reportElement x="293" y="0" width="24" height="10"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{product_uom_name}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement x="5" y="0" width="428" height="10"/>
+					<reportElement x="5" y="0" width="277" height="10"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
@@ -551,7 +573,7 @@ ORDER BY
 				</textField>
 			</frame>
 			<textField>
-				<reportElement x="480" y="0" width="55" height="10"/>
+				<reportElement x="330" y="0" width="55" height="10"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -561,10 +583,10 @@ ORDER BY
 		<band height="10">
 			<printWhenExpression><![CDATA[$F{product_template_description_sale}]]></printWhenExpression>
 			<frame>
-				<reportElement style="Righe" mode="Opaque" x="0" y="0" width="547" height="10"/>
+				<reportElement style="Righe" mode="Opaque" x="0" y="0" width="401" height="10"/>
 			</frame>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="5" y="0" width="423" height="10"/>
+				<reportElement x="5" y="0" width="277" height="10"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -576,153 +598,153 @@ ORDER BY
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="125" splitType="Stretch">
+		<band height="183" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement x="1" y="34" width="555" height="90" printWhenGroupChanges="FAT" forecolor="#131313"/>
+				<reportElement x="1" y="56" width="395" height="125" printWhenGroupChanges="FAT" forecolor="#131313"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="411" y="68" width="140" height="11" printWhenGroupChanges="FAT"/>
+				<reportElement x="5" y="149" width="128" height="11" printWhenGroupChanges="FAT"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Firma Conducente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="11" y="99" width="100" height="8" printWhenGroupChanges="FAT"/>
+				<reportElement x="11" y="121" width="100" height="8" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[TRASPORTO A CURA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="141" y="68" width="114" height="8" printWhenGroupChanges="FAT"/>
+				<reportElement x="141" y="90" width="114" height="8" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[ASPETTO ESTERIORE DEI BENI]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="321" y="110" width="22" height="10" printWhenGroupChanges="FAT"/>
+				<reportElement x="321" y="132" width="22" height="10" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fiscaldoc_header_totale_colli}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="316" y="100" width="35" height="8" printWhenGroupChanges="FAT"/>
+				<reportElement x="316" y="122" width="35" height="8" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[N. COLLI]]></text>
 			</staticText>
 			<line direction="BottomUp">
-				<reportElement mode="Transparent" x="298" y="34" width="1" height="90" printWhenGroupChanges="FAT"/>
+				<reportElement mode="Transparent" x="298" y="56" width="1" height="125" printWhenGroupChanges="FAT"/>
 			</line>
 			<staticText>
-				<reportElement x="411" y="100" width="140" height="11" printWhenGroupChanges="FAT"/>
+				<reportElement x="145" y="149" width="140" height="11" printWhenGroupChanges="FAT"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Firma Destinatario]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="141" y="100" width="90" height="8" printWhenGroupChanges="FAT"/>
+				<reportElement x="141" y="122" width="90" height="8" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[CAUSALE DEL TRASPORTO	]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="141" y="109" width="90" height="10" printWhenGroupChanges="FAT"/>
+				<reportElement x="141" y="131" width="90" height="10" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{stock_picking_transportation_reason_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="11" y="106" width="100" height="10" printWhenGroupChanges="FAT"/>
+				<reportElement x="11" y="128" width="100" height="10" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fiscaldoc_spedizioni_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="141" y="77" width="114" height="10" printWhenGroupChanges="FAT"/>
+				<reportElement x="141" y="99" width="114" height="10" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{stock_picking_goods_description_name}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="411" y="38" width="140" height="8" printWhenGroupChanges="FAT"/>
+				<reportElement x="301" y="149" width="90" height="8" printWhenGroupChanges="FAT"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[FIRMA VETTORE]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="367" y="111" width="30" height="10" printWhenGroupChanges="FAT"/>
+				<reportElement x="367" y="133" width="30" height="10" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fiscaldoc_header_totale_peso}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="368" y="100" width="30" height="8" printWhenGroupChanges="FAT"/>
+				<reportElement x="368" y="122" width="30" height="8" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[PESO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="6" y="69" width="45" height="8" printWhenGroupChanges="FAT"/>
+				<reportElement x="6" y="91" width="45" height="8" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[PORTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="304" y="68" width="56" height="8" printWhenGroupChanges="FAT"/>
+				<reportElement x="304" y="90" width="56" height="8" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[DATA INIZ. TRASP.]]></text>
 			</staticText>
 			<textField pattern="HH.mm" isBlankWhenNull="true">
-				<reportElement x="368" y="79" width="30" height="10"/>
+				<reportElement x="368" y="101" width="30" height="10"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fiscaldoc_header_ora_trasporto}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="304" y="79" width="56" height="10"/>
+				<reportElement x="304" y="101" width="56" height="10"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fiscaldoc_header_data_trasporto}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="6" y="76" width="45" height="10"/>
+				<reportElement x="6" y="98" width="45" height="10"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{stock_picking_carriage_condition_name}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="6" y="38" width="80" height="8"/>
+				<reportElement x="6" y="60" width="80" height="8"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[VETTORI]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="6" y="46" width="80" height="10"/>
+				<reportElement x="6" y="68" width="80" height="10"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{fiscaldoc_header_vettore}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" x="3" y="0" width="555" height="30"/>
+				<reportElement stretchType="RelativeToBandHeight" x="3" y="0" width="398" height="50"/>
 				<textElement>
 					<font size="4"/>
 				</textElement>
@@ -733,41 +755,41 @@ di obblighi di legge. Salvo comunicazione contraria si presume il consenso. TRAS
 per una portata utile globale di kg. 006260 e D7WI3M/00036041 per una portata utile globale di kg. 004980 Dichiara che le seguenti cose sono: "di sua proprietà" da esso prodotte e vendute.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="301" y="38" width="60" height="8"/>
+				<reportElement x="301" y="60" width="60" height="8"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[DATA RIT. MERCE]]></text>
 			</staticText>
 			<line direction="BottomUp">
-				<reportElement mode="Transparent" x="363" y="34" width="1" height="90" printWhenGroupChanges="FAT"/>
+				<reportElement mode="Transparent" x="363" y="56" width="1" height="90" printWhenGroupChanges="FAT"/>
 			</line>
 			<staticText>
-				<reportElement x="368" y="38" width="33" height="8"/>
+				<reportElement x="368" y="60" width="33" height="8"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[ORA RIT.]]></text>
 			</staticText>
-			<line direction="BottomUp">
-				<reportElement mode="Transparent" x="403" y="34" width="1" height="90" printWhenGroupChanges="FAT"/>
-			</line>
 			<line>
-				<reportElement x="1" y="64" width="555" height="1"/>
+				<reportElement x="1" y="86" width="395" height="1"/>
 			</line>
 			<line direction="BottomUp">
-				<reportElement mode="Transparent" x="133" y="64" width="1" height="60" printWhenGroupChanges="FAT"/>
+				<reportElement mode="Transparent" x="133" y="86" width="1" height="95" printWhenGroupChanges="FAT"/>
 			</line>
 			<line>
-				<reportElement x="1" y="94" width="555" height="1"/>
+				<reportElement x="1" y="116" width="395" height="1"/>
 			</line>
 			<staticText>
-				<reportElement x="368" y="68" width="28" height="8" printWhenGroupChanges="FAT"/>
+				<reportElement x="368" y="90" width="28" height="8" printWhenGroupChanges="FAT"/>
 				<textElement>
 					<font size="5" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[ORA INIZ.]]></text>
 			</staticText>
+			<line>
+				<reportElement x="0" y="146" width="395" height="1"/>
+			</line>
 		</band>
 	</pageFooter>
 	<summary>
