@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DDT" language="groovy" pageWidth="421" pageHeight="595" columnWidth="401" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="488"/>
+	<property name="ireport.x" value="133"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Righe" mode="Opaque">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
@@ -127,7 +127,7 @@ FROM
      LEFT OUTER JOIN "public"."sale_shop" sale_shop ON fiscaldoc_header."magazzino_id" = sale_shop."id"
      LEFT OUTER JOIN "public"."res_partner_address" res_partner_address ON fiscaldoc_header."partner_indfat_id" = res_partner_address."id"
      LEFT OUTER JOIN "public"."res_partner_address" res_partner_address_A ON fiscaldoc_header."partner_indcons_id" = res_partner_address_A."id"
-     INNER JOIN "public"."sale_agent" sale_agent ON res_partner."agent_id" = sale_agent."id"
+     LEFT OUTER JOIN "public"."sale_agent" sale_agent ON res_partner."agent_id" = sale_agent."id"
      LEFT OUTER JOIN "public"."product_uom" product_uom ON fiscaldoc_righe."product_uom" = product_uom."id"
      LEFT OUTER JOIN "public"."account_tax" account_tax ON fiscaldoc_righe."codice_iva" = account_tax."id"
      INNER JOIN "public"."product_product" product_product ON fiscaldoc_righe."product_id" = product_product."id"
@@ -290,7 +290,7 @@ ORDER BY
 				<text><![CDATA[Destinatario Merce]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="249" y="41" width="129" height="8">
+				<reportElement x="249" y="51" width="129" height="8">
 					<printWhenExpression><![CDATA[$F{fiscaldoc_header_partner_indfat_id}.compareTo($F{fiscaldoc_header_partner_indcons_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -299,7 +299,7 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{res_partner_address_a_city}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="209" y="41" width="37" height="8">
+				<reportElement x="209" y="51" width="37" height="8">
 					<printWhenExpression><![CDATA[$F{fiscaldoc_header_partner_indfat_id}.compareTo($F{fiscaldoc_header_partner_indcons_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -308,7 +308,7 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{res_partner_address_a_zip}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="209" y="31" width="182" height="8">
+				<reportElement x="209" y="41" width="182" height="8">
 					<printWhenExpression><![CDATA[$F{fiscaldoc_header_partner_indfat_id}.compareTo($F{fiscaldoc_header_partner_indcons_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -317,14 +317,16 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{res_partner_address_a_street}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="211" y="21" width="70" height="10"/>
+				<reportElement mode="Opaque" x="215" y="19" width="163" height="10">
+					<printWhenExpression><![CDATA[$F{res_partner_address_a_street}]]></printWhenExpression>
+				</reportElement>
 				<textElement>
 					<font size="7" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Idem]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement mode="Opaque" x="207" y="21" width="160" height="9">
+				<reportElement mode="Opaque" x="208" y="19" width="160" height="9">
 					<printWhenExpression><![CDATA[$F{fiscaldoc_header_partner_indfat_id}.compareTo($F{fiscaldoc_header_partner_indcons_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -490,7 +492,7 @@ ORDER BY
 			<line>
 				<reportElement x="260" y="0" width="1" height="30"/>
 			</line>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="200" y="10" width="60" height="10"/>
 				<textElement>
 					<font size="8"/>
