@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DDT" language="groovy" pageWidth="421" pageHeight="595" columnWidth="401" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="133"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="24"/>
 	<style name="Righe" mode="Opaque">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
@@ -348,6 +348,10 @@ ORDER BY
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_mobile}]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="0" y="8" width="192" height="86"/>
+				<imageExpression><![CDATA["./logo.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</pageHeader>
 	<columnHeader>
