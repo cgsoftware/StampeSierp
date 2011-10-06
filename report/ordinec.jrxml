@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ordine" language="groovy" pageWidth="421" pageHeight="595" columnWidth="401" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ordine" pageWidth="421" pageHeight="595" columnWidth="401" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="120"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -199,76 +199,76 @@ WHERE
 	<pageHeader>
 		<band height="173" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement mode="Opaque" x="257" y="69" width="137" height="66" forecolor="#777777" backcolor="#777777"/>
+				<reportElement mode="Opaque" x="225" y="69" width="169" height="66" forecolor="#777777" backcolor="#777777"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement x="252" y="64" width="139" height="67" backcolor="#FFFFFF"/>
+				<reportElement x="225" y="64" width="166" height="67" backcolor="#FFFFFF"/>
 			</rectangle>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="256" y="76" width="127" height="10"/>
+				<reportElement x="232" y="76" width="127" height="10"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7" isBold="true" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_name}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="256" y="69" width="70" height="7"/>
+				<reportElement x="232" y="69" width="70" height="7"/>
 				<textElement>
 					<font size="5" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Intestatario Documento]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="256" y="96" width="127" height="8"/>
+				<reportElement mode="Transparent" x="232" y="96" width="127" height="8"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_street}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="277" y="113" width="95" height="8"/>
+				<reportElement x="253" y="113" width="95" height="8"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_vat}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="256" y="104" width="25" height="8"/>
+				<reportElement x="232" y="104" width="25" height="8"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_zip}]]></textFieldExpression>
 			</textField>
 			<rectangle radius="10">
-				<reportElement x="257" y="8" width="135" height="52" forecolor="#777777" backcolor="#777777"/>
+				<reportElement x="225" y="8" width="169" height="52" forecolor="#777777" backcolor="#777777"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement x="252" y="3" width="135" height="53" backcolor="#FFFFFF"/>
+				<reportElement x="225" y="3" width="166" height="53" backcolor="#FFFFFF"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="256" y="5" width="70" height="7"/>
+				<reportElement x="232" y="5" width="70" height="7"/>
 				<textElement>
 					<font size="5" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Diversa Destinazione]]></text>
 			</staticText>
 			<rectangle radius="10">
-				<reportElement x="0" y="139" width="394" height="27" forecolor="#777777" backcolor="#777777"/>
+				<reportElement x="5" y="139" width="389" height="27" forecolor="#777777" backcolor="#777777"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement x="0" y="137" width="392" height="25"/>
+				<reportElement x="5" y="137" width="387" height="25"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="5" y="138" width="50" height="7"/>
+				<reportElement x="9" y="138" width="50" height="7"/>
 				<textElement>
 					<font size="6" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Codice Cliente]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="5" y="144" width="50" height="8"/>
+				<reportElement x="9" y="144" width="50" height="10"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sale_order_partner_id}]]></textFieldExpression>
 			</textField>
@@ -287,16 +287,16 @@ WHERE
 				<text><![CDATA[Pagina]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="60" y="144" width="50" height="8"/>
+				<reportElement x="60" y="144" width="50" height="10"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true" isItalic="false"/>
+					<font size="8" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[ORDINE]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="225" y="144" width="22" height="8" printWhenGroupChanges="Ordine"/>
+				<reportElement x="225" y="144" width="22" height="10" printWhenGroupChanges="Ordine"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -308,9 +308,9 @@ WHERE
 				<text><![CDATA[N° Documento]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="115" y="144" width="50" height="8"/>
+				<reportElement x="115" y="144" width="50" height="10"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="6" isBold="true" isItalic="true"/>
+					<font size="8" isBold="true" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sale_order_name}]]></textFieldExpression>
 			</textField>
@@ -322,9 +322,9 @@ WHERE
 				<text><![CDATA[Data Documento]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="170" y="144" width="50" height="8"/>
+				<reportElement x="170" y="144" width="50" height="10"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="false" isItalic="false"/>
+					<font size="8" isBold="false" isItalic="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sale_order_date_order}]]></textFieldExpression>
 			</textField>
@@ -343,28 +343,28 @@ WHERE
 				<text><![CDATA[Pagamento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="256" y="113" width="20" height="8"/>
+				<reportElement x="232" y="113" width="20" height="8"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<text><![CDATA[P. IVA]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="281" y="104" width="102" height="8"/>
+				<reportElement x="257" y="104" width="102" height="8"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_city}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="256" y="144" width="131" height="8"/>
+				<reportElement x="256" y="144" width="131" height="10"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="6" isBold="false"/>
+					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{account_payment_term_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="256" y="41" width="25" height="8">
+				<reportElement x="232" y="41" width="25" height="8">
 					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -373,7 +373,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{res_partner_address_a_zip}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="281" y="41" width="102" height="8">
+				<reportElement x="257" y="41" width="102" height="8">
 					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -382,7 +382,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{res_partner_address_a_city}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="256" y="33" width="127" height="8">
+				<reportElement x="232" y="33" width="127" height="8">
 					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement>
@@ -391,7 +391,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{res_partner_address_a_street}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement mode="Opaque" x="256" y="13" width="127" height="10">
+				<reportElement mode="Opaque" x="232" y="13" width="127" height="10">
 					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
@@ -400,32 +400,36 @@ WHERE
 				<textFieldExpression><![CDATA[$F{res_partner_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="256" y="121" width="50" height="8"/>
+				<reportElement x="232" y="121" width="50" height="8"/>
 				<textElement>
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_phone}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="306" y="121" width="50" height="8"/>
+				<reportElement x="282" y="121" width="50" height="8"/>
 				<textElement>
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{res_partner_address_mobile}]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="10" y="10" width="145" height="107"/>
+				<imageExpression><![CDATA["./logo.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="13" splitType="Stretch">
 			<staticText>
-				<reportElement x="2" y="2" width="160" height="9"/>
+				<reportElement x="5" y="2" width="160" height="9"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7" isBold="false" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Articolo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="286" y="2" width="16" height="9"/>
+				<reportElement x="282" y="2" width="20" height="9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7" isBold="false" isItalic="true"/>
 				</textElement>
@@ -448,37 +452,37 @@ WHERE
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="8" splitType="Stretch">
+		<band height="10" splitType="Stretch">
 			<frame>
-				<reportElement style="Row" mode="Opaque" x="0" y="0" width="401" height="8"/>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="401" height="10"/>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement x="0" y="0" width="258" height="8" isPrintInFirstWholeBand="true"/>
+					<reportElement x="5" y="0" width="258" height="10" isPrintInFirstWholeBand="true"/>
 					<textElement verticalAlignment="Top">
-						<font size="6"/>
+						<font size="9"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{sale_order_line_name}]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0">
-					<reportElement x="302" y="0" width="25" height="8"/>
+					<reportElement x="302" y="0" width="30" height="10"/>
 					<textElement textAlignment="Center" verticalAlignment="Top">
-						<font size="6"/>
+						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{sale_order_line_product_uos_qty}]]></textFieldExpression>
 				</textField>
 				<rectangle>
-					<reportElement positionType="Float" x="274" y="0" width="8" height="8"/>
+					<reportElement positionType="Float" x="268" y="0" width="8" height="10"/>
 				</rectangle>
 				<textField pattern="###0">
-					<reportElement x="333" y="0" width="59" height="8"/>
+					<reportElement x="333" y="0" width="59" height="10"/>
 					<textElement textAlignment="Center" verticalAlignment="Top">
-						<font size="6"/>
+						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{sale_order_line_delay}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="286" y="0" width="16" height="8"/>
+					<reportElement x="282" y="0" width="20" height="10"/>
 					<textElement verticalAlignment="Top">
-						<font size="6"/>
+						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{product_uom_name}]]></textFieldExpression>
 				</textField>
@@ -493,10 +497,10 @@ WHERE
 	<pageFooter>
 		<band height="62" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement x="0" y="0" width="394" height="62" forecolor="#777777" backcolor="#777777"/>
+				<reportElement x="5" y="0" width="389" height="62" forecolor="#777777" backcolor="#777777"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement x="0" y="0" width="392" height="60" forecolor="#131313"/>
+				<reportElement x="5" y="0" width="387" height="60" forecolor="#131313"/>
 			</rectangle>
 			<line direction="BottomUp">
 				<reportElement mode="Transparent" x="240" y="0" width="1" height="60"/>

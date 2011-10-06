@@ -82,8 +82,8 @@ ORDER BY
 				<text><![CDATA[Codice]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="110" y="0" width="70" height="8"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement x="97" y="0" width="50" height="8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<text><![CDATA[Imponibile]]></text>
@@ -96,8 +96,8 @@ ORDER BY
 				<text><![CDATA[Descrizione]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="180" y="0" width="70" height="8"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement x="157" y="0" width="50" height="8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
 				<text><![CDATA[IVA]]></text>
@@ -111,28 +111,28 @@ ORDER BY
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{account_tax_description}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{account_tax_description}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="110" y="0" width="70" height="9"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement x="97" y="0" width="50" height="9"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{fiscaldoc_iva_imponibile}]]></textFieldExpression>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fiscaldoc_iva_imponibile}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="30" y="0" width="80" height="9"/>
 				<textElement verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{account_tax_name}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{account_tax_name}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="180" y="0" width="70" height="9" isPrintInFirstWholeBand="true"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<reportElement x="157" y="0" width="50" height="9" isPrintInFirstWholeBand="true"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{fiscaldoc_iva_imposta}]]></textFieldExpression>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fiscaldoc_iva_imposta}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
