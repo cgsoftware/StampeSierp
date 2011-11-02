@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ordine" pageWidth="421" pageHeight="595" columnWidth="401" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty">
-	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="252"/>
+	<property name="ireport.y" value="17"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -44,6 +44,9 @@
 	</parameter>
 	<parameter name="anr" class="java.lang.String">
 		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="cal" class="java.util.Calendar" isForPrompting="false">
+		<defaultValueExpression><![CDATA[Calendar.getInstance()]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -104,7 +107,9 @@
      res_partner_address."mobile" AS res_partner_address_mobile,
      stock_picking_carriage_condition."name" AS stock_picking_carriage_condition_name,
      res_partner."carriage_condition_id" AS res_partner_carriage_condition_id,
-     delivery_carrier."name" AS delivery_carrier_name
+     delivery_carrier."name" AS delivery_carrier_name,
+     res_partner_address_A."phone" AS res_partner_address_A_phone,
+     res_partner_address_A."mobile" AS res_partner_address_A_mobile
 FROM
      "public"."sale_order" sale_order INNER JOIN "public"."sale_order_line" sale_order_line ON sale_order."id" = sale_order_line."order_id"
      INNER JOIN "public"."res_partner" res_partner ON sale_order."partner_id" = res_partner."id"
@@ -120,7 +125,7 @@ WHERE
      sale_order."name" >= $P{danr}
  AND sale_order."name" <= $P{anr}
  AND sale_order."date_order" >= to_date($P{dadata},'YYYY-MM-DD')
- AND sale_order."date_order" <= to_date($P{dadata},'YYYY-MM-DD')]]>
+ AND sale_order."date_order" <= to_date($P{adata},'YYYY-MM-DD')]]>
 	</queryString>
 	<field name="sale_order_shop_id" class="java.lang.Integer"/>
 	<field name="sale_order_client_order_ref" class="java.lang.String"/>
@@ -180,6 +185,8 @@ WHERE
 	<field name="stock_picking_carriage_condition_name" class="java.lang.String"/>
 	<field name="res_partner_carriage_condition_id" class="java.lang.Integer"/>
 	<field name="delivery_carrier_name" class="java.lang.String"/>
+	<field name="res_partner_address_a_phone" class="java.lang.String"/>
+	<field name="res_partner_address_a_mobile" class="java.lang.String"/>
 	<sortField name="sale_order_name"/>
 	<sortField name="sale_order_date_order"/>
 	<group name="Ordine" isStartNewPage="true" isResetPageNumber="true">
@@ -417,6 +424,24 @@ WHERE
 				<reportElement x="10" y="10" width="145" height="107"/>
 				<imageExpression class="java.lang.String"><![CDATA["./logo.jpg"]]></imageExpression>
 			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="282" y="48" width="50" height="8">
+					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_partner_address_a_mobile}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="232" y="48" width="50" height="8">
+					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_partner_address_a_phone}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -467,17 +492,17 @@ WHERE
 					<textElement textAlignment="Center" verticalAlignment="Top">
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{sale_order_line_product_uos_qty}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{sale_order_line_product_uos_qty}]]></textFieldExpression>
 				</textField>
 				<rectangle>
 					<reportElement positionType="Float" x="268" y="0" width="8" height="10"/>
 				</rectangle>
-				<textField pattern="###0">
+				<textField pattern="dd/MM/yyyy">
 					<reportElement x="333" y="0" width="59" height="10"/>
 					<textElement textAlignment="Center" verticalAlignment="Top">
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{sale_order_line_delay}]]></textFieldExpression>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{sale_order_date_order}+$F{sale_order_line_delay}.intValue()]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="282" y="0" width="20" height="10"/>
