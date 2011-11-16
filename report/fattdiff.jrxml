@@ -113,7 +113,8 @@
      sale_shop."name" AS sale_shop_name,
      fiscaldoc_righe."id" AS fiscaldoc_righe_id,
      sale_agent."partner_id" AS sale_agent_partner_id,
-     sale_agent."name" AS sale_agent_name
+     sale_agent."name" AS sale_agent_name,
+     fiscaldoc_header."totale_pagare" AS fiscaldoc_header_totale_pagare
 FROM
      "public"."fiscaldoc_header" fiscaldoc_header INNER JOIN "public"."fiscaldoc_righe" fiscaldoc_righe ON fiscaldoc_header."id" = fiscaldoc_righe."name"
      LEFT OUTER JOIN "public"."fiscaldoc_spedizioni" fiscaldoc_spedizioni ON fiscaldoc_header."spedizione" = fiscaldoc_spedizioni."id"
@@ -223,6 +224,7 @@ ORDER BY
 	<field name="fiscaldoc_righe_id" class="java.lang.Integer"/>
 	<field name="sale_agent_partner_id" class="java.lang.Integer"/>
 	<field name="sale_agent_name" class="java.lang.String"/>
+	<field name="fiscaldoc_header_totale_pagare" class="java.math.BigDecimal"/>
 	<sortField name="fiscaldoc_header_numdoc"/>
 	<variable name="name" class="java.lang.String">
 		<variableExpression><![CDATA[$F{fiscaldoc_header_name}]]></variableExpression>
@@ -818,9 +820,9 @@ CONTRIBUTO CONAI ASSOLTO OVE DOVUTO]]></text>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fiscaldoc_header_totale_bolli}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="272" y="118" width="55" height="10"/>
+				<reportElement x="266" y="118" width="61" height="15"/>
 				<textElement textAlignment="Right">
-					<font size="8"/>
+					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fiscaldoc_header_totale_documento}]]></textFieldExpression>
 			</textField>
@@ -830,13 +832,6 @@ CONTRIBUTO CONAI ASSOLTO OVE DOVUTO]]></text>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fiscaldoc_header_totale_acconti}]]></textFieldExpression>
-			</textField>
-			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="490" y="118" width="60" height="12"/>
-				<textElement textAlignment="Right">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fiscaldoc_header_totale_imponibile}+$F{fiscaldoc_header_totale_imposta}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="9" y="136" width="103" height="8" printWhenGroupChanges="FAT"/>
@@ -897,6 +892,13 @@ CONTRIBUTO CONAI ASSOLTO OVE DOVUTO]]></text>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "scadq.jasper"]]></subreportExpression>
 			</subreport>
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<reportElement x="474" y="118" width="69" height="15"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fiscaldoc_header_totale_pagare}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 	<summary>
