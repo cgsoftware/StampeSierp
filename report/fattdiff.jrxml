@@ -94,7 +94,6 @@
      res_partner."vat" AS res_partner_vat,
      res_partner."name" AS res_partner_name,
      res_partner."sconto_partner" AS res_partner_sconto_partner,
-     res_partner_address."street2" AS res_partner_address_street2,
      res_partner_address."street" AS res_partner_address_street,
      res_partner_address."city" AS res_partner_address_city,
      res_partner_address."zip" AS res_partner_address_zip,
@@ -111,14 +110,21 @@
      account_payment_term."name" AS account_payment_term_name,
      res_bank."name" AS res_bank_name,
      sale_shop."name" AS sale_shop_name,
-     fiscaldoc_righe."id" AS fiscaldoc_righe_id,
-     sale_agent."partner_id" AS sale_agent_partner_id,
+     res_partner_address_A."zip" AS res_partner_address_A_zip,
+     res_partner_address_A."city" AS res_partner_address_A_city,
+     res_partner_address_A."street" AS res_partner_address_A_street,
+     product_template."description_sale" AS product_template_description_sale,
      sale_agent."name" AS sale_agent_name,
-     fiscaldoc_header."totale_pagare" AS fiscaldoc_header_totale_pagare
+     res_partner_address."mobile" AS res_partner_address_mobile,
+     res_partner_address."phone" AS res_partner_address_phone,
+     fiscaldoc_righe."id" AS fiscaldoc_righe_id,
+     res_partner_address."province" AS res_partner_address_province,
+     res_province."name" AS res_province_name,
+     res_province."code" AS res_province_code
 FROM
      "public"."fiscaldoc_header" fiscaldoc_header INNER JOIN "public"."fiscaldoc_righe" fiscaldoc_righe ON fiscaldoc_header."id" = fiscaldoc_righe."name"
      LEFT OUTER JOIN "public"."fiscaldoc_spedizioni" fiscaldoc_spedizioni ON fiscaldoc_header."spedizione" = fiscaldoc_spedizioni."id"
-     INNER JOIN "public"."res_partner" res_partner ON fiscaldoc_header."partner_id" = res_partner."id"
+     LEFT OUTER JOIN "public"."res_partner" res_partner ON fiscaldoc_header."partner_id" = res_partner."id"
      LEFT OUTER JOIN "public"."stock_picking_carriage_condition" stock_picking_carriage_condition ON fiscaldoc_header."porto_id" = stock_picking_carriage_condition."id"
      LEFT OUTER JOIN "public"."stock_picking_goods_description" stock_picking_goods_description ON fiscaldoc_header."aspetto_esteriore_id" = stock_picking_goods_description."id"
      LEFT OUTER JOIN "public"."stock_picking_transportation_reason" stock_picking_transportation_reason ON fiscaldoc_header."causale_del_trasporto_id" = stock_picking_transportation_reason."id"
@@ -126,13 +132,15 @@ FROM
      LEFT OUTER JOIN "public"."res_users" res_users ON fiscaldoc_header."agente" = res_users."id"
      LEFT OUTER JOIN "public"."account_payment_term" account_payment_term ON fiscaldoc_header."pagamento_id" = account_payment_term."id"
      LEFT OUTER JOIN "public"."res_bank" res_bank ON fiscaldoc_header."banca_patner" = res_bank."id"
-     AND res_bank."id" = fiscaldoc_header."banca_azienda"
      LEFT OUTER JOIN "public"."sale_shop" sale_shop ON fiscaldoc_header."magazzino_id" = sale_shop."id"
-     LEFT OUTER JOIN "public"."sale_agent" sale_agent ON fiscaldoc_header."agente" = sale_agent."id"
-     INNER JOIN "public"."res_partner_address" res_partner_address ON res_partner."id" = res_partner_address."partner_id"
+     LEFT OUTER JOIN "public"."res_partner_address" res_partner_address ON fiscaldoc_header."partner_indfat_id" = res_partner_address."id"
+     LEFT OUTER JOIN "public"."res_partner_address" res_partner_address_A ON fiscaldoc_header."partner_indcons_id" = res_partner_address_A."id"
+     LEFT OUTER JOIN "public"."res_province" res_province ON res_partner_address."province" = res_province."id"
+     LEFT OUTER JOIN "public"."sale_agent" sale_agent ON res_partner."agent_id" = sale_agent."id"
      LEFT OUTER JOIN "public"."product_uom" product_uom ON fiscaldoc_righe."product_uom" = product_uom."id"
      LEFT OUTER JOIN "public"."account_tax" account_tax ON fiscaldoc_righe."codice_iva" = account_tax."id"
      INNER JOIN "public"."product_product" product_product ON fiscaldoc_righe."product_id" = product_product."id"
+     INNER JOIN "public"."product_template" product_template ON product_product."product_tmpl_id" = product_template."id"
 WHERE
      fiscaldoc_header."name" >= $P{danr}
  AND fiscaldoc_header."name" <= $P{anr}
@@ -204,7 +212,6 @@ ORDER BY
 	<field name="res_partner_vat" class="java.lang.String"/>
 	<field name="res_partner_name" class="java.lang.String"/>
 	<field name="res_partner_sconto_partner" class="java.math.BigDecimal"/>
-	<field name="res_partner_address_street2" class="java.lang.String"/>
 	<field name="res_partner_address_street" class="java.lang.String"/>
 	<field name="res_partner_address_city" class="java.lang.String"/>
 	<field name="res_partner_address_zip" class="java.lang.String"/>
@@ -221,10 +228,17 @@ ORDER BY
 	<field name="account_payment_term_name" class="java.lang.String"/>
 	<field name="res_bank_name" class="java.lang.String"/>
 	<field name="sale_shop_name" class="java.lang.String"/>
-	<field name="fiscaldoc_righe_id" class="java.lang.Integer"/>
-	<field name="sale_agent_partner_id" class="java.lang.Integer"/>
+	<field name="res_partner_address_a_zip" class="java.lang.String"/>
+	<field name="res_partner_address_a_city" class="java.lang.String"/>
+	<field name="res_partner_address_a_street" class="java.lang.String"/>
+	<field name="product_template_description_sale" class="java.lang.String"/>
 	<field name="sale_agent_name" class="java.lang.String"/>
-	<field name="fiscaldoc_header_totale_pagare" class="java.math.BigDecimal"/>
+	<field name="res_partner_address_mobile" class="java.lang.String"/>
+	<field name="res_partner_address_phone" class="java.lang.String"/>
+	<field name="fiscaldoc_righe_id" class="java.lang.Integer"/>
+	<field name="res_partner_address_province" class="java.lang.Integer"/>
+	<field name="res_province_name" class="java.lang.String"/>
+	<field name="res_province_code" class="java.lang.String"/>
 	<sortField name="fiscaldoc_header_numdoc"/>
 	<variable name="name" class="java.lang.String">
 		<variableExpression><![CDATA[$F{fiscaldoc_header_name}]]></variableExpression>
@@ -285,10 +299,17 @@ ORDER BY
 				<reportElement x="5" y="5" width="256" height="124"/>
 				<imageExpression class="java.lang.String"><![CDATA["./logo.jpg"]]></imageExpression>
 			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="446" y="104" width="34" height="10"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_province_code}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="78" splitType="Stretch">
+		<band height="79" splitType="Stretch">
 			<rectangle radius="10">
 				<reportElement x="0" y="0" width="550" height="60"/>
 			</rectangle>
@@ -369,7 +390,7 @@ ORDER BY
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{fiscaldoc_header_name}]]></textFieldExpression>
 			</textField>
-			<rectangle radius="10">
+			<rectangle radius="8">
 				<reportElement x="2" y="62" width="546" height="15" backcolor="#B7B7B7"/>
 			</rectangle>
 			<staticText>
@@ -486,10 +507,10 @@ ORDER BY
 			<line>
 				<reportElement x="485" y="30" width="1" height="30"/>
 			</line>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="160" y="40" width="129" height="10"/>
 				<textElement>
-					<font size="8"/>
+					<font size="7"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_bank_name}]]></textFieldExpression>
 			</textField>
@@ -897,7 +918,7 @@ CONTRIBUTO CONAI ASSOLTO OVE DOVUTO]]></text>
 				<textElement textAlignment="Right">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fiscaldoc_header_totale_pagare}]]></textFieldExpression>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{fiscaldoc_header_totale_documento}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

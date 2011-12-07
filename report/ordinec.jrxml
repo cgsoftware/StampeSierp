@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ordine" pageWidth="421" pageHeight="595" columnWidth="401" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" whenResourceMissingType="Empty">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="252"/>
-	<property name="ireport.y" value="17"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -109,7 +109,11 @@
      res_partner."carriage_condition_id" AS res_partner_carriage_condition_id,
      delivery_carrier."name" AS delivery_carrier_name,
      res_partner_address_A."phone" AS res_partner_address_A_phone,
-     res_partner_address_A."mobile" AS res_partner_address_A_mobile
+     res_partner_address_A."mobile" AS res_partner_address_A_mobile,
+     res_partner_address."function" AS res_partner_address_function,
+     res_partner_address_A."function" AS res_partner_address_A_function,
+     res_province."code" AS res_province_code,
+     res_province."name" AS res_province_name
 FROM
      "public"."sale_order" sale_order INNER JOIN "public"."sale_order_line" sale_order_line ON sale_order."id" = sale_order_line."order_id"
      INNER JOIN "public"."res_partner" res_partner ON sale_order."partner_id" = res_partner."id"
@@ -118,6 +122,7 @@ FROM
      LEFT OUTER JOIN "public"."res_partner_address" res_partner_address_A ON sale_order."partner_shipping_id" = res_partner_address_A."id"
      LEFT OUTER JOIN "public"."delivery_carrier" delivery_carrier ON sale_order."carrier_id" = delivery_carrier."id"
      AND res_partner."id" = res_partner_address."partner_id"
+     LEFT OUTER JOIN "public"."res_province" res_province ON res_partner_address."province" = res_province."id"
      LEFT OUTER JOIN "public"."stock_picking_carriage_condition" stock_picking_carriage_condition ON res_partner."carriage_condition_id" = stock_picking_carriage_condition."id"
      LEFT OUTER JOIN "public"."product_product" product_product ON sale_order_line."product_id" = product_product."id"
      LEFT OUTER JOIN "public"."product_uom" product_uom ON sale_order_line."product_uom" = product_uom."id"
@@ -187,6 +192,10 @@ WHERE
 	<field name="delivery_carrier_name" class="java.lang.String"/>
 	<field name="res_partner_address_a_phone" class="java.lang.String"/>
 	<field name="res_partner_address_a_mobile" class="java.lang.String"/>
+	<field name="res_partner_address_function" class="java.lang.String"/>
+	<field name="res_partner_address_a_function" class="java.lang.String"/>
+	<field name="res_province_code" class="java.lang.String"/>
+	<field name="res_province_name" class="java.lang.String"/>
 	<sortField name="sale_order_name"/>
 	<sortField name="sale_order_date_order"/>
 	<group name="Ordine" isStartNewPage="true" isResetPageNumber="true">
@@ -398,11 +407,11 @@ WHERE
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_partner_address_a_street}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement mode="Opaque" x="232" y="13" width="127" height="10">
+				<reportElement mode="Opaque" x="232" y="13" width="155" height="8">
 					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font size="7" isBold="true" isStrikeThrough="false"/>
+					<font size="6" isBold="true" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_partner_name}]]></textFieldExpression>
 			</textField>
@@ -441,6 +450,22 @@ WHERE
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_partner_address_a_phone}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="235" y="25" width="139" height="8">
+					<printWhenExpression><![CDATA[$F{sale_order_partner_invoice_id}.compareTo($F{sale_order_partner_shipping_id})]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_partner_address_a_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="359" y="105" width="15" height="8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{res_province_code}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
