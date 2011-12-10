@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <record id="view_stampa_stock_move" model="ir.ui.view">
+            <field name="name">Stampa</field>
+            <field name="model">stampa.stock.move</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                    <form string="Parametri di Stampa"  >
+                       <!--   <field name="dadata" colspan="4" />
+                        <field name="adata" colspan="4" /> -->
+                        <field name="danrv" colspan="4"/>
+                        <field name="anrv" width="300" colspan="4"/>
+                        <!--  <field name="prezzi"/> -->
+                        <separator colspan="4"/>
+                        <group col="4" colspan="4">
+                            <button icon="gtk-cancel" special="cancel" string="Cancel" colspan="2"/>
+                            <button icon="gtk-print" name="check_report" string="Stampa" type="object" colspan="2" default_focus="1" />
+                        </group>
+                    </form>
+                
+            </field>
+        </record>
+               
+ 
+        
+        <act_window id="action_view_stampa_mrp_production"
+            key2="client_print_multi"
+            name="Stampa uscita prodotti"
+            res_model="stampa.stock.move"
+            src_model="stock.move"
+            view_mode="form" target="new" view_type="form" />
+       
+        
+    </data>
+</openerp>
+

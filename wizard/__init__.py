@@ -20,8 +20,6 @@
 #
 ##############################################################################
 
-#import sale
-#import product
-import wizard
+import stampa_out
 
 

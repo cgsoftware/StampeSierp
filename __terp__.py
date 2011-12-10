@@ -27,7 +27,7 @@
     'author': 'C & G Software sas',
     'website': 'http://www.cgsoftware.it',
     "depends" : ['base','sale','jasper_reports'],
-    "update_xml" : ['report.xml'],
+    "update_xml" : ['report.xml','wizard/stampa_out.xml'],
     "active": False,
     "installable": True
 }
